@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <title>hello</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <!-- <link rel="shortcut icon" href="favicon.ico"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 默认使用webkit内核 -->
+    <meta name="renderer" content="webkit">
+    <!-- 兼容模式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link href="" rel="stylesheet">
+    <style>
+      #container {
+        height: 500px;
+        width: 500px;
+      }
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=QagNU2sX9gguLyBiCd8KO4VAXpafIQMy">
+      //v2.0版本的引用方式：src="http://api.map.baidu.com/api?v=2.0&ak=您的密钥"
+    </script>
+  </head>
+
+  <body>
+    <div id="container"></div>
+    <div id="results"></div>
+    <script>
+      var map = new BMap.Map("container");
+      map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);
+
+      //城市检索
+      // var city = new BMap.LocalSearch(map, {
+      //   renderOptions: { map: map }
+      // });
+      // city.search("天安门");
+
+      //圆形区域检索
+      // var circle = new BMap.LocalSearch(map,
+      //   { renderOptions: { map: map, autoViewport: true } });
+      // circle.searchNearby("小吃", "前门");
+
+      //矩形区域检索
+      // var local = new BMap.LocalSearch(map,
+      //   { renderOptions: { map: map } });
+      // local.searchInBounds("银行", map.getBounds());   
+
+      //配置搜索
+      // var local = new BMap.LocalSearch("北京市",
+      //   { renderOptions: { map: map, autoViewport: true }, pageCapacity: 8 });
+      // local.search("中关村");
+
+      //结果面板
+      var local = new BMap.LocalSearch(map,
+        { renderOptions: { map: map, panel: "results" } });
+      local.search("中关村");
+
+      //数据接口
+      // var options = {
+      //   onSearchComplete: function (results) {
+      //     if (local.getStatus() == BMAP_STATUS_SUCCESS) {
+      //       // 判断状态是否正确      
+      //       var s = [];
+      //       for (var i = 0; i < results.getCurrentNumPois(); i++) {
+      //         s.push(results.getPoi(i).title + ", " + results.getPoi(i).address);
+      //       }
+      //       document.getElementById("log").innerHTML = s.join("<br>");
+      //     }
+      //   }
+      // };
+      // var local = new BMap.LocalSearch(map, options);
+      // local.search("公园");
+    </script>
+  </body>
+
+</html>

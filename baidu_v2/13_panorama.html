@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <title>hello</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <!-- <link rel="shortcut icon" href="favicon.ico"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 默认使用webkit内核 -->
+    <meta name="renderer" content="webkit">
+    <!-- 兼容模式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link href="" rel="stylesheet">
+    <style>
+      #container {
+        height: 500px;
+        width: 500px;
+      }
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=QagNU2sX9gguLyBiCd8KO4VAXpafIQMy">
+      //v2.0版本的引用方式：src="http://api.map.baidu.com/api?v=2.0&ak=您的密钥"
+    </script>
+  </head>
+
+  <body>
+    <div id="container"></div>
+    <script>
+      var map = new BMap.Map("container");
+      var point = new BMap.Point(116.404, 39.915);
+      map.centerAndZoom(point, 15);
+      map.enableScrollWheelZoom(true);
+
+      // 覆盖区域图层测试
+      map.addTileLayer(new BMap.PanoramaCoverageLayer());
+
+      var stCtrl = new BMap.PanoramaControl(); //构造全景控件
+      stCtrl.setOffset(new BMap.Size(20, 20));
+      map.addControl(stCtrl);//添加全景控件
+
+      // window.onload = function () {
+      //   var panorama = new BMap.Panorama('container');   //2
+      //   panorama.setPosition(new BMap.Point(120.320032, 31.589666));    //3  
+      //   // panorama.setId('0100010000130501122416015Z1');  
+      //   panorama.setPov({ heading: -40, pitch: 6 });  //4 
+      // }  
+    </script>
+  </body>
+
+</html>

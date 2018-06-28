@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <title>hello</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <!-- <link rel="shortcut icon" href="favicon.ico"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 默认使用webkit内核 -->
+    <meta name="renderer" content="webkit">
+    <!-- 兼容模式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link href="" rel="stylesheet">
+    <style>
+      #container {
+        height: 500px;
+        width: 500px;
+      }
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=QagNU2sX9gguLyBiCd8KO4VAXpafIQMy">
+      //v2.0版本的引用方式：src="http://api.map.baidu.com/api?v=2.0&ak=您的密钥"
+    </script>
+  </head>
+
+  <body>
+    <div id="container"></div>
+    <script>
+      var map = new BMap.Map("container");
+      var point = new BMap.Point(116.331398, 39.897445);
+      map.centerAndZoom(point, 12);
+
+      var geolocation = new BMap.Geolocation();
+      geolocation.getCurrentPosition(function (r) {
+        if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+          var mk = new BMap.Marker(r.point);
+          map.addOverlay(mk);
+          map.panTo(r.point);
+          alert('您的位置：' + r.point.lng + ',' + r.point.lat);
+        }
+        else {
+          alert('failed' + this.getStatus());
+        }
+      });
+    </script>
+  </body>
+
+</html>

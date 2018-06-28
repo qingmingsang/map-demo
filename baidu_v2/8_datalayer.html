@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <title>hello</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <!-- <link rel="shortcut icon" href="favicon.ico"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 默认使用webkit内核 -->
+    <meta name="renderer" content="webkit">
+    <!-- 兼容模式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link href="" rel="stylesheet">
+    <style>
+      #container {
+        height: 500px;
+        width: 500px;
+      }
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=QagNU2sX9gguLyBiCd8KO4VAXpafIQMy">
+      //v2.0版本的引用方式：src="http://api.map.baidu.com/api?v=2.0&ak=您的密钥"
+    </script>
+  </head>
+
+  <body>
+    <div id="container"></div>
+    <script>
+      var map = new BMap.Map("container");          // 创建地图实例     
+      var point = new BMap.Point(116.404, 39.915);  // 创建点坐标     
+      map.centerAndZoom(point, 15);                  // 初始化地图，设置中心点坐标和地图级别     
+
+      //根据daboxId创建自定义图层，用户可用自己创建的geotableid替换30960  
+      var customLayer = new BMap.CustomLayer({
+        geotableId: 30960,
+        q: '', //检索关键字  
+        tags: '', //空格分隔的多字符串  
+        filter: '' //过滤条件,参考http://lbsyun.baidu.com/index.php?title=lbscloud/api/geosearch  
+      });
+      map.addTileLayer(customLayer);//添加自定义图层 
+
+      customLayer.addEventListener('onhotspotclick', callback);//单击图层事件  
+      //单击热点图层 
+      function callback(e) {
+        var customPoi = e.customPoi,  //获取poi对象  
+          str = [];
+        str.push("address = " + customPoi.address);
+        str.push("phoneNumber = " + customPoi.phoneNumber);
+        var content = '<p style="width:280px;margin:0;line-height:20px;">地址：' + customPoi.address + '<br>电话：' + customPoi.phoneNumber + '</p>';
+        var searchInfoWindow = new BMapLib.SearchInfoWindow(map, content, {  //带检索的信息窗口  
+          title: customPoi.title, //标题  
+          width: 290, //宽度  
+          height: 40, //高度  
+          panel: "panel", //检索结果面板  
+          enableAutoPan: true, //自动平移  
+          enableSendToPhone: true, //是否显示发送到手机按钮  
+          searchTypes: [
+            BMAPLIB_TAB_SEARCH,   //周边检索  
+            BMAPLIB_TAB_TO_HERE,  //到这里去  
+            BMAPLIB_TAB_FROM_HERE //从这里出发  
+          ]
+        });
+        var point = new BMap.Point(customPoi.point.lng, customPoi.point.lat);
+        searchInfoWindow.open(point);
+      }
+
+      var drawingManager = new BMapLib.DrawingManager(map, {
+        //使用鼠标工具需要引入鼠标工具开源库DrawingManager_min.js及样式文件DrawingManager_min.css  
+        isOpen: false, //是否开启绘制模式  
+        enableDrawingTool: false, //是否显示工具栏  
+        drawingToolOptions: {
+          anchor: BMAP_ANCHOR_TOP_RIGHT, //位置  
+          offset: new BMap.Size(5, 5), //偏离值  
+          scale: 0.8 //工具栏缩放比例  
+        }
+      });
+      drawingManager.setDrawingMode(BMAP_DRAWING_CIRCLE);
+      drawingManager.open();
+
+      drawingManager.addEventListener('circlecomplete', function (e) {
+        circle = e;
+        var radius = parseInt(e.getRadius()); //检索半径必须是整型  
+        var center = e.getCenter();
+        drawingManager.close();
+        if (customLayer) {
+          map.removeTileLayer(customLayer);
+        }
+        localSearch.searchNearby(' ', center, radius, { customData: { databoxId: 4032 } });//用新创建的databoxid替换该值  
+      });
+    </script>
+  </body>
+
+</html>

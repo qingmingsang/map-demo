@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <title>hello</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <!-- <link rel="shortcut icon" href="favicon.ico"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 默认使用webkit内核 -->
+    <meta name="renderer" content="webkit">
+    <!-- 兼容模式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link href="" rel="stylesheet">
+    <style>
+      #container {
+        height: 500px;
+        width: 500px;
+      }
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=QagNU2sX9gguLyBiCd8KO4VAXpafIQMy">
+      //v2.0版本的引用方式：src="http://api.map.baidu.com/api?v=2.0&ak=您的密钥"
+    </script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
+  </head>
+
+  <body>
+    <div id="container"></div>
+    <script>
+      var map = new BMap.Map("container");
+      map.centerAndZoom(new BMap.Point(116.404, 39.915), 5);
+      map.enableScrollWheelZoom();
+
+
+      var MAX = 10;
+      var markers = [];
+      var pt = null;
+      var i = 0;
+      for (; i < MAX; i++) {
+        pt = new BMap.Point(Math.random() * 40 + 85, Math.random() * 30 + 21);
+        markers.push(new BMap.Marker(pt));
+      }
+      //最简单的用法，生成一个marker数组，然后调用markerClusterer类即可。
+      var markerClusterer = new BMapLib.MarkerClusterer(map, { markers: markers });
+    </script>
+
+  </body>
+
+</html>
